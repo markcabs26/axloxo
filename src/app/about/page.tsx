@@ -18,7 +18,7 @@ export default function AboutPage() {
       </h1>
       <div className="prose prose-lg text-muted space-y-5 text-lg leading-relaxed">
         <p>
-          I&apos;m Allie Cablayn and I have just started my very own bracelet
+          I&apos;m Allie Cablayan and I have just started my very own bracelet
           company. It&apos;s called Axloxo, and every bracelet you see here is
           made by me — one bead at a time, at our kitchen table (which is
           almost always covered in beads).
@@ -30,7 +30,7 @@ export default function AboutPage() {
           figured I&apos;d make it official.
         </p>
         <p>
-          Every bracelet is strung, tied, and double-checked by me. My dad
+          Every bracelet is strung, tied, and double-checked by me. My family
           helps with shipping and built the website, because I&apos;m ten and
           that part isn&apos;t really my thing yet.
         </p>
