@@ -14,19 +14,25 @@ export default function AboutPage() {
         />
       </div>
       <h1 className="font-display text-4xl sm:text-5xl font-semibold mb-6 text-center">
-        Hi, I&apos;m the bracelet maker.
+        Hi, I&apos;m Allie.
       </h1>
       <div className="prose prose-lg text-muted space-y-5 text-lg leading-relaxed">
         <p>
-          I started making bead bracelets because I liked playing with colors,
-          and then my friends started asking if they could have one too.
-          That&apos;s how Axloxo got started — from a kitchen table
-          covered in beads (and a couple that rolled under the fridge).
+          I&apos;m Allie Cablayn and I have just started my very own bracelet
+          company. It&apos;s called Axloxo, and every bracelet you see here is
+          made by me — one bead at a time, at our kitchen table (which is
+          almost always covered in beads).
+        </p>
+        <p>
+          I started making bracelets because I love picking out color
+          combinations, and then my friends kept asking where I got them.
+          When I told them I made them myself, they wanted their own — so I
+          figured I&apos;d make it official.
         </p>
         <p>
           Every bracelet is strung, tied, and double-checked by me. My dad
-          helps with shipping and the website part, because I&apos;m ten and
-          that&apos;s not really my thing yet.
+          helps with shipping and built the website, because I&apos;m ten and
+          that part isn&apos;t really my thing yet.
         </p>
         <p>
           If you want something specific — a color combo, a name, a charm for
@@ -34,10 +40,11 @@ export default function AboutPage() {
           <Link href="/custom" className="text-brand font-semibold underline">
             send me a request
           </Link>
-          . I love designing customs the most.
+          . Customs are my favorite part.
         </p>
         <p className="font-display text-2xl text-foreground pt-4">
-          Thanks for stopping by. ♡
+          Thanks for stopping by. ♡<br />
+          <span className="text-base text-muted font-sans">— Allie</span>
         </p>
       </div>
     </div>
