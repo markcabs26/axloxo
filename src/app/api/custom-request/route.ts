@@ -1,6 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const TO_EMAIL = process.env.CUSTOM_REQUEST_TO ?? "alliecablayan@icloud.com";
+const TO_EMAILS = (
+  process.env.CUSTOM_REQUEST_TO ?? "alliecablayan@icloud.com,markcabs26@gmail.com"
+)
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const FROM = process.env.RESEND_FROM ?? "Axloxo <orders@axloxo.com>";
+
+type ResendMessage = {
+  from: string;
+  to: string[];
+  subject: string;
+  text: string;
+  reply_to?: string;
+};
+
+async function sendEmail(apiKey: string, msg: ResendMessage, label: string) {
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(msg),
+    });
+    if (!res.ok) {
+      console.error(`[custom-request] Resend ${label} failed:`, await res.text());
+    }
+  } catch (e) {
+    console.error(`[custom-request] Resend ${label} error:`, e);
+  }
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -38,36 +70,59 @@ export async function POST(req: NextRequest) {
 
   const apiKey = process.env.RESEND_API_KEY;
   if (apiKey) {
-    try {
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: process.env.RESEND_FROM ?? "Axloxo <orders@axloxo.com>",
-          to: [TO_EMAIL],
-          reply_to: email || undefined,
-          subject: `Custom bracelet request from ${name}`,
+    await sendEmail(
+      apiKey,
+      {
+        from: FROM,
+        to: TO_EMAILS,
+        reply_to: email || undefined,
+        subject: `Custom bracelet request from ${name}`,
+        text: [
+          `Name: ${name}`,
+          `Email: ${submission.email}`,
+          `Phone: ${submission.phone}`,
+          `Colors: ${colors}`,
+          `Size: ${submission.size}`,
+          `Occasion: ${submission.occasion}`,
+          "",
+          "Notes:",
+          submission.notes || "(none)",
+        ].join("\n"),
+      },
+      "notification"
+    );
+
+    if (email?.trim()) {
+      await sendEmail(
+        apiKey,
+        {
+          from: FROM,
+          to: [email],
+          subject: "Thanks for your custom bracelet request!",
           text: [
-            `Name: ${name}`,
-            `Email: ${submission.email}`,
-            `Phone: ${submission.phone}`,
-            `Colors: ${colors}`,
-            `Size: ${submission.size}`,
-            `Occasion: ${submission.occasion}`,
+            `Hi ${name},`,
             "",
-            "Notes:",
-            submission.notes || "(none)",
-          ].join("\n"),
-        }),
-      });
-      if (!res.ok) {
-        console.error("[custom-request] Resend failed:", await res.text());
-      }
-    } catch (e) {
-      console.error("[custom-request] Resend error:", e);
+            "Thanks so much for reaching out — Allie got your custom bracelet request and is excited to take a look!",
+            "",
+            "Here's what we have on file:",
+            `  Colors: ${colors}`,
+            `  Size: ${submission.size}`,
+            `  Occasion: ${submission.occasion}`,
+            submission.notes ? `  Notes: ${submission.notes}` : "",
+            "",
+            "She'll get back to you within a day or two with a couple of design ideas and a price quote (usually $2–$20 depending on beads and charms). Once you approve, she'll make it and ship it out — usually within a week.",
+            "",
+            "If you need to add anything to your request, just reply to this email.",
+            "",
+            "Talk soon!",
+            "— Allie",
+            "Axloxo · axloxo.com",
+          ]
+            .filter(Boolean)
+            .join("\n"),
+        },
+        "confirmation"
+      );
     }
   }
 
