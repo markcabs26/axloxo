@@ -15,7 +15,12 @@ export default function CustomPage() {
     setStatus("sending");
     setError(null);
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form));
+    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    if (!data.email?.trim() && !data.phone?.trim()) {
+      setStatus("error");
+      setError("Please give us either an email or a phone number.");
+      return;
+    }
     try {
       const res = await fetch("/api/custom-request", {
         method: "POST",
@@ -93,7 +98,18 @@ export default function CustomPage() {
           className="bg-white rounded-3xl border border-accent/40 p-6 sm:p-8 space-y-4"
         >
           <Field label="Your name" name="name" required />
-          <Field label="Email" name="email" type="email" required />
+          <div>
+            <p className="text-sm font-semibold mb-1.5">
+              How should we reach you? <span className="text-brand">*</span>
+            </p>
+            <p className="text-xs text-muted mb-2">
+              Email or phone — whichever you prefer (at least one).
+            </p>
+            <div className="grid sm:grid-cols-2 gap-3">
+              <Field label="Email" name="email" type="email" hideLabel />
+              <Field label="Phone" name="phone" type="tel" hideLabel placeholder="(555) 123-4567" />
+            </div>
+          </div>
           <Field
             label="Favorite colors"
             name="colors"
@@ -141,22 +157,27 @@ function Field({
   type = "text",
   placeholder,
   required,
+  hideLabel,
 }: {
   label: string;
   name: string;
   type?: string;
   placeholder?: string;
   required?: boolean;
+  hideLabel?: boolean;
 }) {
   return (
     <div>
-      <label className="block text-sm font-semibold mb-1.5">
-        {label} {required && <span className="text-brand">*</span>}
-      </label>
+      {!hideLabel && (
+        <label className="block text-sm font-semibold mb-1.5">
+          {label} {required && <span className="text-brand">*</span>}
+        </label>
+      )}
       <input
         name={name}
         type={type}
-        placeholder={placeholder}
+        placeholder={placeholder ?? (hideLabel ? label : undefined)}
+        aria-label={hideLabel ? label : undefined}
         required={required}
         className="w-full rounded-xl border border-accent bg-background px-4 py-2.5 focus:border-brand focus:outline-none"
       />

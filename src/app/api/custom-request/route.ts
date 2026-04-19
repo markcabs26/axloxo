@@ -5,14 +5,20 @@ const TO_EMAIL = process.env.CUSTOM_REQUEST_TO ?? "mark@payready.com";
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const { name, email, colors, size, occasion, notes } = body as Record<
+  const { name, email, phone, colors, size, occasion, notes } = body as Record<
     string,
     string
   >;
 
-  if (!name?.trim() || !email?.trim() || !colors?.trim()) {
+  if (!name?.trim() || !colors?.trim()) {
     return NextResponse.json(
-      { error: "Please fill in your name, email, and colors." },
+      { error: "Please fill in your name and colors." },
+      { status: 400 }
+    );
+  }
+  if (!email?.trim() && !phone?.trim()) {
+    return NextResponse.json(
+      { error: "Please give us either an email or a phone number." },
       { status: 400 }
     );
   }
@@ -20,7 +26,8 @@ export async function POST(req: NextRequest) {
   const submission = {
     receivedAt: new Date().toISOString(),
     name,
-    email,
+    email: email || "(not provided)",
+    phone: phone || "(not provided)",
     colors,
     size: size || "(not specified)",
     occasion: occasion || "(not specified)",
@@ -41,11 +48,12 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           from: process.env.RESEND_FROM ?? "Axloxo <orders@axloxo.com>",
           to: [TO_EMAIL],
-          reply_to: email,
+          reply_to: email || undefined,
           subject: `Custom bracelet request from ${name}`,
           text: [
             `Name: ${name}`,
-            `Email: ${email}`,
+            `Email: ${submission.email}`,
+            `Phone: ${submission.phone}`,
             `Colors: ${colors}`,
             `Size: ${submission.size}`,
             `Occasion: ${submission.occasion}`,
