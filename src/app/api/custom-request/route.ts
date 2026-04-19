@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const TO_EMAIL = process.env.CUSTOM_REQUEST_TO ?? "mark@payready.com";
+const TO_EMAIL = process.env.CUSTOM_REQUEST_TO ?? "alliecablayan@icloud.com";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();

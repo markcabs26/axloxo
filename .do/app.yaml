@@ -31,7 +31,7 @@ services:
         value: Axloxo <orders@axloxo.com>
         scope: RUN_TIME
       - key: CUSTOM_REQUEST_TO
-        value: mark@payready.com
+        value: alliecablayan@icloud.com
         scope: RUN_TIME
 domains:
   - domain: axloxo.com
