@@ -70,7 +70,7 @@ export default function CustomPage() {
           <p className="text-muted text-lg mb-6">
             Want specific colors, initials, or a charm? Fill this out and
             we&apos;ll design something just for you. We&apos;ll send a quick
-            reply with a price (usually $12–$25 depending on materials) before
+            reply with a price (usually $2–$20 depending on materials) before
             we start.
           </p>
           <div className="rounded-2xl bg-cream p-6">
