@@ -19,7 +19,7 @@ export function Header() {
           <Link href="/custom" className="px-2 py-1 hover:text-brand transition-colors">
             Custom
           </Link>
-          <Link href="/about" className="px-2 py-1 hover:text-brand transition-colors hidden sm:inline">
+          <Link href="/about" className="px-2 py-1 hover:text-brand transition-colors">
             About
           </Link>
           <Link
