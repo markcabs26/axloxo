@@ -8,14 +8,27 @@ export function ProductCard({ product }: { product: Product }) {
       href={`/shop/${product.slug}`}
       className="group block rounded-3xl bg-white border border-accent/40 p-5 hover:border-brand hover:shadow-lg transition-all"
     >
-      <div className="aspect-square flex items-center justify-center bg-gradient-to-br from-cream to-accent/30 rounded-2xl mb-4 group-hover:from-accent/20 group-hover:to-accent/50 transition-colors">
-        <BraceletPreview colors={product.colors} size={180} />
+      <div className="relative aspect-square flex items-center justify-center bg-gradient-to-br from-cream to-accent/30 rounded-2xl mb-4 group-hover:from-accent/20 group-hover:to-accent/50 transition-colors overflow-hidden">
+        <BraceletPreview
+          colors={product.colors}
+          size={180}
+          className={product.soldOut ? "opacity-60" : ""}
+        />
+        {product.soldOut && (
+          <span className="absolute top-3 left-3 bg-foreground text-background text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full">
+            Sold out
+          </span>
+        )}
       </div>
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-display text-lg font-semibold leading-tight">
           {product.name}
         </h3>
-        <span className="font-semibold text-brand whitespace-nowrap">
+        <span
+          className={`font-semibold whitespace-nowrap ${
+            product.soldOut ? "text-muted line-through" : "text-brand"
+          }`}
+        >
           {formatPrice(product.priceCents)}
         </span>
       </div>

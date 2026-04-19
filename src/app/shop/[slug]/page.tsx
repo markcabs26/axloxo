@@ -66,10 +66,13 @@ export default async function ProductPage({
             slug={product.slug}
             name={product.name}
             priceCents={product.priceCents}
+            soldOut={product.soldOut}
           />
-          <p className="text-xs text-muted mt-4">
-            Flat $5 shipping within the US · Usually ships in 2–3 days
-          </p>
+          {!product.soldOut && (
+            <p className="text-xs text-muted mt-4">
+              Flat $5 shipping within the US · Usually ships in 2–3 days
+            </p>
+          )}
         </div>
       </div>
 

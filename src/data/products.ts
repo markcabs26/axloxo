@@ -6,9 +6,13 @@ export type Product = {
   colors: string[];
   tags: string[];
   featured?: boolean;
+  soldOut?: boolean;
 };
 
-export const products: Product[] = [
+const ALL_SOLD_OUT = true;
+
+export const products: Product[] = (
+  [
   {
     slug: "sunset-stripe",
     name: "Sunset Stripe",
@@ -85,7 +89,8 @@ export const products: Product[] = [
     colors: ["#8d6e63", "#689f38", "#a1887f"],
     tags: ["charm", "earth-tones"],
   },
-];
+] satisfies Product[]
+).map((p) => (ALL_SOLD_OUT ? { ...p, soldOut: true } : p));
 
 export const getProduct = (slug: string) =>
   products.find((p) => p.slug === slug);
