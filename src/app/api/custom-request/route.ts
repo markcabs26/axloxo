@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabaseServer } from "@/lib/supabase";
 
 const TO_EMAILS = (
   process.env.CUSTOM_REQUEST_TO ?? "alliecablayan@icloud.com,markcabs26@gmail.com"
@@ -67,6 +68,23 @@ export async function POST(req: NextRequest) {
   };
 
   console.log("[custom-request]", JSON.stringify(submission, null, 2));
+
+  try {
+    const { error } = await supabaseServer()
+      .from("requests")
+      .insert({
+        name,
+        email: email || null,
+        phone: phone || null,
+        colors,
+        size: size || null,
+        occasion: occasion || null,
+        notes: notes || null,
+      });
+    if (error) console.error("[custom-request] DB insert failed:", error);
+  } catch (e) {
+    console.error("[custom-request] DB insert error:", e);
+  }
 
   const apiKey = process.env.RESEND_API_KEY;
   if (apiKey) {

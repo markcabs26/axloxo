@@ -1,11 +1,19 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { products, getProduct, formatPrice } from "@/data/products";
-import { BraceletPreview } from "@/components/BraceletPreview";
+import {
+  getProductBySlug,
+  listProducts,
+  listProductSlugs,
+} from "@/lib/products";
+import { formatPrice } from "@/data/products";
+import { ProductImage } from "@/components/ProductImage";
 import { AddToCartButton } from "@/components/AddToCartButton";
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const slugs = await listProductSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -14,11 +22,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const product = await getProductBySlug(slug);
   return {
-    title: product
-      ? `${product.name} — Axloxo`
-      : "Not found — Axloxo",
+    title: product ? `${product.name} — Axloxo` : "Not found — Axloxo",
   };
 }
 
@@ -28,10 +34,11 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const others = products.filter((p) => p.slug !== slug).slice(0, 3);
+  const all = await listProducts();
+  const others = all.filter((p) => p.slug !== slug).slice(0, 3);
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
@@ -39,8 +46,14 @@ export default async function ProductPage({
         ← Back to shop
       </Link>
       <div className="grid md:grid-cols-2 gap-10 mt-6">
-        <div className="aspect-square flex items-center justify-center bg-gradient-to-br from-cream to-accent/40 rounded-3xl">
-          <BraceletPreview colors={product.colors} size={340} animate />
+        <div className="aspect-square flex items-center justify-center bg-gradient-to-br from-cream to-accent/40 rounded-3xl overflow-hidden">
+          <ProductImage
+            imageUrl={product.imageUrl}
+            colors={product.colors}
+            size={340}
+            alt={product.name}
+            animate={!product.imageUrl}
+          />
         </div>
         <div className="flex flex-col">
           <h1 className="font-display text-4xl sm:text-5xl font-semibold mb-3">
@@ -87,8 +100,13 @@ export default async function ProductPage({
               href={`/shop/${p.slug}`}
               className="group rounded-2xl bg-white border border-accent/40 p-4 hover:border-brand transition-all"
             >
-              <div className="aspect-square flex items-center justify-center bg-gradient-to-br from-cream to-accent/30 rounded-xl mb-3">
-                <BraceletPreview colors={p.colors} size={140} />
+              <div className="aspect-square flex items-center justify-center bg-gradient-to-br from-cream to-accent/30 rounded-xl mb-3 overflow-hidden">
+                <ProductImage
+                  imageUrl={p.imageUrl}
+                  colors={p.colors}
+                  size={140}
+                  alt={p.name}
+                />
               </div>
               <div className="flex justify-between items-baseline">
                 <span className="font-display font-semibold">{p.name}</span>

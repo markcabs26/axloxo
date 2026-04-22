@@ -1,17 +1,21 @@
 import Link from "next/link";
 import { Product, formatPrice } from "@/data/products";
-import { BraceletPreview } from "./BraceletPreview";
+import { ProductImage } from "./ProductImage";
 
-export function ProductCard({ product }: { product: Product }) {
+type CardProduct = Product & { imageUrl?: string };
+
+export function ProductCard({ product }: { product: CardProduct }) {
   return (
     <Link
       href={`/shop/${product.slug}`}
       className="group block rounded-3xl bg-white border border-accent/40 p-5 hover:border-brand hover:shadow-lg transition-all"
     >
       <div className="relative aspect-square flex items-center justify-center bg-gradient-to-br from-cream to-accent/30 rounded-2xl mb-4 group-hover:from-accent/20 group-hover:to-accent/50 transition-colors overflow-hidden">
-        <BraceletPreview
+        <ProductImage
+          imageUrl={product.imageUrl}
           colors={product.colors}
           size={180}
+          alt={product.name}
           className={product.soldOut ? "opacity-60" : ""}
         />
         {product.soldOut && (

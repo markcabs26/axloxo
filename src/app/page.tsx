@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { products } from "@/data/products";
+import { listProducts } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
 import { BraceletPreview } from "@/components/BraceletPreview";
 
-export default function Home() {
-  const featured = products.filter((p) => p.featured);
+export const revalidate = 60;
+
+export default async function Home() {
+  const products = await listProducts();
+  const featured = products.filter((p) => p.featured).slice(0, 4);
 
   return (
     <>

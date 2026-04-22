@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { products } from "@/data/products";
+import { listProducts } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
 
 export const metadata = { title: "Shop — Axloxo" };
+export const revalidate = 60;
 
-export default function ShopPage() {
+export default async function ShopPage() {
+  const products = await listProducts();
   const allSoldOut = products.every((p) => p.soldOut);
 
   return (
