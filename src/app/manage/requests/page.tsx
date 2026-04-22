@@ -45,7 +45,7 @@ export default async function RequestsPage({ searchParams }: Props) {
           {data.map((r) => (
             <Link
               key={r.id}
-              href={`/admin/requests/${r.id}`}
+              href={`/manage/requests/${r.id}`}
               className="block px-4 py-3 hover:bg-cream/60"
             >
               <div className="flex items-center justify-between gap-3">
@@ -90,7 +90,7 @@ function FilterLink({
   const active = (current ?? "") === value;
   return (
     <Link
-      href={value ? `/admin/requests?status=${value}` : "/admin/requests"}
+      href={value ? `/manage/requests?status=${value}` : "/manage/requests"}
       className={`text-sm px-3 py-1.5 rounded-full border transition-colors ${
         active
           ? "bg-foreground text-background border-foreground"

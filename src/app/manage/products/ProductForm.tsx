@@ -69,8 +69,8 @@ export function ProductForm({ mode, initial, originalSlug }: Props) {
       };
       const url =
         mode === "new"
-          ? "/api/admin/products"
-          : `/api/admin/products/${originalSlug}`;
+          ? "/api/manage/products"
+          : `/api/manage/products/${originalSlug}`;
       const res = await fetch(url, {
         method: mode === "new" ? "POST" : "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -79,7 +79,7 @@ export function ProductForm({ mode, initial, originalSlug }: Props) {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Save failed");
       if (mode === "new") {
-        router.push(`/admin/products/${payload.slug}`);
+        router.push(`/manage/products/${payload.slug}`);
       } else {
         router.refresh();
       }
@@ -103,7 +103,7 @@ export function ProductForm({ mode, initial, originalSlug }: Props) {
       const fd = new FormData();
       fd.append("file", file);
       const res = await fetch(
-        `/api/admin/products/${originalSlug}/image`,
+        `/api/manage/products/${originalSlug}/image`,
         { method: "POST", body: fd }
       );
       const json = await res.json();
@@ -121,11 +121,11 @@ export function ProductForm({ mode, initial, originalSlug }: Props) {
     if (!confirm("Delete this product? This can't be undone.")) return;
     setSaving(true);
     try {
-      const res = await fetch(`/api/admin/products/${originalSlug}`, {
+      const res = await fetch(`/api/manage/products/${originalSlug}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Delete failed");
-      router.push("/admin/products");
+      router.push("/manage/products");
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Delete failed");
       setSaving(false);

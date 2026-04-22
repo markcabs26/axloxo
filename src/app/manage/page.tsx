@@ -35,7 +35,7 @@ export default async function AdminDashboard() {
           (s) => (
             <Link
               key={s}
-              href={`/admin/requests?status=${s}`}
+              href={`/manage/requests?status=${s}`}
               className="bg-white border border-accent/40 rounded-2xl p-4 hover:border-brand transition-colors"
             >
               <p className="text-xs uppercase tracking-wide text-muted">
@@ -53,7 +53,7 @@ export default async function AdminDashboard() {
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-display text-xl font-semibold">Recent requests</h2>
           <Link
-            href="/admin/requests"
+            href="/manage/requests"
             className="text-sm text-brand hover:underline"
           >
             View all →
@@ -78,7 +78,7 @@ function RequestList({ rows }: { rows: RequestRow[] }) {
       {rows.map((r) => (
         <Link
           key={r.id}
-          href={`/admin/requests/${r.id}`}
+          href={`/manage/requests/${r.id}`}
           className="block px-4 py-3 hover:bg-cream/60 transition-colors"
         >
           <div className="flex items-center justify-between gap-3">

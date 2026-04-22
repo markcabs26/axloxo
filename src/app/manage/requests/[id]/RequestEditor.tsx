@@ -38,7 +38,7 @@ export function RequestEditor({
     setErr(null);
     try {
       const cents = quotedDollars ? Math.round(Number(quotedDollars) * 100) : null;
-      const res = await fetch(`/api/admin/requests/${id}`, {
+      const res = await fetch(`/api/manage/requests/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -63,11 +63,11 @@ export function RequestEditor({
     if (!confirm("Delete this request? This can't be undone.")) return;
     setSaving(true);
     try {
-      const res = await fetch(`/api/admin/requests/${id}`, {
+      const res = await fetch(`/api/manage/requests/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Delete failed");
-      router.push("/admin/requests");
+      router.push("/manage/requests");
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Delete failed");
       setSaving(false);

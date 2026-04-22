@@ -21,7 +21,7 @@ export default async function RequestDetail({
 
   return (
     <div className="space-y-6">
-      <Link href="/admin/requests" className="text-sm text-muted hover:text-brand">
+      <Link href="/manage/requests" className="text-sm text-muted hover:text-brand">
         ← All requests
       </Link>
       <div className="flex flex-wrap items-baseline justify-between gap-3">

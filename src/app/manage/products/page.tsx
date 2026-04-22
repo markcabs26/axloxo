@@ -29,7 +29,7 @@ export default async function AdminProducts() {
       <div className="flex items-center justify-between">
         <h1 className="font-display text-3xl font-semibold">Products</h1>
         <Link
-          href="/admin/products/new"
+          href="/manage/products/new"
           className="rounded-full bg-brand hover:bg-brand-dark text-white font-semibold px-4 py-2 text-sm"
         >
           + New product
@@ -40,7 +40,7 @@ export default async function AdminProducts() {
         {(data as Row[] | null)?.map((p) => (
           <Link
             key={p.id}
-            href={`/admin/products/${p.slug}`}
+            href={`/manage/products/${p.slug}`}
             className="bg-white border border-accent/40 rounded-2xl p-4 hover:border-brand transition-colors"
           >
             <div className="aspect-square bg-gradient-to-br from-cream to-accent/30 rounded-xl mb-3 overflow-hidden flex items-center justify-center">

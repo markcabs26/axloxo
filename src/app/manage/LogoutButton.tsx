@@ -9,8 +9,8 @@ export function AdminLogoutButton() {
 
   const onClick = async () => {
     setLoading(true);
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.replace("/admin/login");
+    await fetch("/api/manage/logout", { method: "POST" });
+    router.replace("/manage/login");
   };
 
   return (

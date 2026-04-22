@@ -14,19 +14,19 @@ export default function AdminLayout({
         <div className="max-w-6xl mx-auto px-6 h-12 flex items-center justify-between gap-4 overflow-x-auto">
           <nav className="flex items-center gap-1 text-sm whitespace-nowrap">
             <Link
-              href="/admin"
+              href="/manage"
               className="px-3 py-1.5 rounded-full hover:bg-cream transition-colors"
             >
               Dashboard
             </Link>
             <Link
-              href="/admin/requests"
+              href="/manage/requests"
               className="px-3 py-1.5 rounded-full hover:bg-cream transition-colors"
             >
               Requests
             </Link>
             <Link
-              href="/admin/products"
+              href="/manage/products"
               className="px-3 py-1.5 rounded-full hover:bg-cream transition-colors"
             >
               Products

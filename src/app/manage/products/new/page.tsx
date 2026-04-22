@@ -7,7 +7,7 @@ export default function NewProductPage() {
   return (
     <div className="space-y-6">
       <Link
-        href="/admin/products"
+        href="/manage/products"
         className="text-sm text-muted hover:text-brand"
       >
         ← All products
